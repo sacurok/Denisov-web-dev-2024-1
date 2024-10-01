@@ -6,14 +6,14 @@
 }
 
 .dish {
-    background: white;
+    display: flex;
+    flex-direction: column; 
     border-radius: 35px;
     padding: 30px 40px 30px 40px;
+    justify-content:space-between; 
     cursor: pointer;
     filter: drop-shadow(17px 19px 24px rgba(0, 0, 0, 0.13));
-    display: flex;
-    flex-direction: column;
-    justify-content:space-between;
+    background-color: white;
 }
 
 .dish:hover {
@@ -27,20 +27,20 @@
 }
 
 .dish p.name {
-    font-size: 1.4rem;
+    font-size: 1.4em;
     margin: 5px 0;
     flex-grow: 1;
 }
 
 .dish p.price {
-    font-size: 1.3rem;
+    font-size: 1.3em;
     margin: 5px 0;
     margin-bottom: 0px;
 }
 
 .dish p.weight {
     color: grey;
-    font-size: 1rem;
+    font-size: 1em;
     margin-top: 20px;
     margin-left: 0;
 }
@@ -61,7 +61,7 @@
     
     .dishes {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 20px;
     }
 
@@ -71,7 +71,6 @@
         padding: 0 20px; 
     }
 }
-
 
 @media (max-width: 600px) {
 
@@ -93,6 +92,6 @@
 
     .dishes {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); 
+        grid-template-columns: repeat(1, 1fr); 
     }
 }
