@@ -14,6 +14,7 @@
     cursor: pointer;
     filter: drop-shadow(17px 19px 24px rgba(0, 0, 0, 0.13));
     background-color: white;
+    border: 2px solid transparent;
 }
 
 .dish:hover {
@@ -65,10 +66,13 @@
         gap: 20px;
     }
 
-    nav {
-        display: flex;
+    .main-menu {
+        flex: 1;
+    }
+
+    .main-menu > ul {
         justify-content: space-between; 
-        padding: 0 20px; 
+        padding: 0; 
     }
 }
 
@@ -78,11 +82,12 @@
         text-align: center; 
     }
 
-    nav {
+    .main-menu { 
         flex-direction: column; 
         align-items: center; 
     }
-    nav a {
+
+    .main-menu a {
         font-size: calc(30px + 4px); 
     }
 
