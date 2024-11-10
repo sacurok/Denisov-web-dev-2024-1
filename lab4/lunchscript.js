@@ -36,6 +36,14 @@ function updateDisplay() {
     }
 }
 
+// Функция для сброса выделения карточки
+function resetHighlight(category) {
+    document.querySelectorAll(`.dish-card[data-category=
+        "${category}"]`).forEach(card => { 
+        card.classList.remove('selected');
+    });
+}
+
 // Функция для добавления блюда в заказ
 function selectDish(keyword) {
   
@@ -45,15 +53,21 @@ function selectDish(keyword) {
         order.selSoup = selectedDish;
         document.getElementById("soup-select-no").textContent = 
         selectedDish.name + ' - ' + selectedDish.price + '₽';
+        resetHighlight('soup');
     } else if (selectedDish.category === 'maindish') {
         order.selMaindish = selectedDish;
         document.getElementById("maindish-select-no").textContent = 
         selectedDish.name + ' - ' + selectedDish.price + '₽';
+        resetHighlight('maindish');
     } else if (selectedDish.category === 'drink') {
         order.selDrink = selectedDish;
         document.getElementById("drink-select-no").textContent =
          selectedDish.name + ' - ' + selectedDish.price + '₽';
+        resetHighlight('drink');
     }
+
+    document.querySelector(`[data-dish=
+        "${keyword}"]`).classList.add('selected');
 
     updateDisplay();
 }
@@ -69,6 +83,7 @@ function displayDishes() {
         const dishCard = document.createElement('div');
         dishCard.classList.add('dish-card');
         dishCard.setAttribute('data-dish', dish.keyword);
+        dishCard.setAttribute('data-category', dish.category);
 
         dishCard.innerHTML = `
             <img src='${dish.image}' alt='${dish.name}'>
@@ -98,6 +113,9 @@ document.getElementById('resetButton').onclick = function() {
     order.selSoup = null;
     order.selMaindish = null;
     order.selDrink = null;
+    resetHighlight('soup');
+    resetHighlight('maindish');
+    resetHighlight('drink');
     updateDisplay();
 };
 
