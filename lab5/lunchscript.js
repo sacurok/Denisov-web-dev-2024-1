@@ -40,6 +40,16 @@ function updateDisplay() {
         selectedOrder.style.display = 'flex';
         totalPrice();
     } else {
+        document.getElementById("soup-select-no").textContent =
+         'Суп не выбран'; 
+        document.getElementById("maindish-select-no").textContent =
+         'Блюдо не выбрано';
+        document.getElementById("salad-select-no").textContent =
+         'Блюдо не выбрано';
+        document.getElementById("drink-select-no").textContent =
+         'Напиток не выбран';
+        document.getElementById("dessert-select-no").textContent =
+         'Блюдо не выбрано';
         noSelection.style.display = 'block';
         selectedOrder.style.display = 'none';
     }
@@ -53,6 +63,34 @@ function resetHighlight(category) {
     });
 }
 
+// Функция для обновления выделения карточек
+function updateSelectedCards() {
+    document.querySelectorAll('.dish-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+
+    if (order.selSoup) {
+        document.querySelector(`[data-dish=
+            "${order.selSoup.keyword}"]`)?.classList.add('selected');
+    }
+    if (order.selMaindish) {
+        document.querySelector(`[data-dish=
+            "${order.selMaindish.keyword}"]`)?.classList.add('selected');
+    }
+    if (order.selSalad) {
+        document.querySelector(`[data-dish=
+            "${order.selSalad.keyword}"]`)?.classList.add('selected');
+    }
+    if (order.selDrink) {
+        document.querySelector(`[data-dish=
+            "${order.selDrink.keyword}"]`)?.classList.add('selected');
+    }
+    if (order.selDessert) {
+        document.querySelector(`[data-dish=
+            "${order.selDessert.keyword}"]`)?.classList.add('selected');
+    }
+}
+
 // Функция для добавления блюда в заказ
 function selectDish(keyword) {
   
@@ -62,33 +100,32 @@ function selectDish(keyword) {
         order.selSoup = selectedDish;
         document.getElementById("soup-select-no").textContent = 
         selectedDish.name + ' - ' + selectedDish.price + '₽';
-        resetHighlight('soup');
+        
     } else if (selectedDish.category === 'maindish') {
         order.selMaindish = selectedDish;
         document.getElementById("maindish-select-no").textContent = 
         selectedDish.name + ' - ' + selectedDish.price + '₽';
-        resetHighlight('maindish');
+        
     } else if (selectedDish.category === 'salad') {
         order.selSalad = selectedDish;
         document.getElementById("salad-select-no").textContent = 
         selectedDish.name + ' - ' + selectedDish.price + '₽';
-        resetHighlight('salad');
+        
     } else if (selectedDish.category === 'drink') {
         order.selDrink = selectedDish;
         document.getElementById("drink-select-no").textContent =
          selectedDish.name + ' - ' + selectedDish.price + '₽';
-        resetHighlight('drink');
+        
     } else if (selectedDish.category === 'dessert') {
         order.selDessert = selectedDish;
         document.getElementById("dessert-select-no").textContent = 
         selectedDish.name + ' - ' + selectedDish.price + '₽';
-        resetHighlight('dessert');
+        
     }
 
-    document.querySelector(`[data-dish=
-        "${keyword}"]`).classList.add('selected');
-
     updateDisplay();
+    updateSelectedCards();
+
 }
 
 
@@ -125,10 +162,11 @@ function displayDishes(dishes) {
         } else if (dish.category === 'dessert') {
             dishSections[4].append(dishCard);
         }
-       
+
+        updateSelectedCards();
         dishCard.querySelector('button').onclick =
          () => selectDish(dishCard.getAttribute('data-dish'));
-        
+
     });
     
 }
