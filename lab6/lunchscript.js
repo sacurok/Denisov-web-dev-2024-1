@@ -279,7 +279,8 @@ document.getElementById('submitButton').onclick = function(event) {
         errorMessage = 'Выберите главное блюдо/салат/стартер';
     } else if (order.selSalad && !order.selSoup && !order.selMaindish) {
         errorMessage = 'Выберите суп или главное блюдо';
-    } else if ((order.selDrink || order.selDessert) && !order.selMaindish) {
+    } else if ((order.selDrink || order.selDessert) && !order.selMaindish && 
+    !order.selSoup) {
         errorMessage = 'Выберите главное блюдо';
     }
 
