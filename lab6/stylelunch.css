@@ -313,7 +313,8 @@ fieldset {
 
 .combo-elem > img:hover {
     transform: translateY(-2.1rem);
-    transform: scale(125%)
+    transform: scale(1.2);
+    
 }
 
 .mini-hint {
