@@ -1,0 +1,18 @@
+#order-container {
+    margin-top: 50px;
+    text-align: center;
+}
+
+#order-container h2 {
+    font-size: 32px;
+}
+
+#order-container a {
+    color: gray;
+    text-decoration: none;
+}
+
+#order-container a:hover {
+    color: rgb(241, 131, 138);
+    text-decoration: none;
+}
