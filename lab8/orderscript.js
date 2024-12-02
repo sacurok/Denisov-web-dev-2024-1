@@ -118,31 +118,31 @@ function deleteDish(keyword) {
         order.selSoup = null;
         document.getElementById("soup-select-no").textContent = 
         'Суп не выбран';
-        localStorage.removeItem('soup_id', selectedDish.keyword);
+        localStorage.removeItem('soup_id', selectedDish.id);
         
     } else if (selectedDish.category === 'main-course') {
         order.selMaindish = null;
         document.getElementById("maindish-select-no").textContent = 
         'Блюдо не выбрано';
-        localStorage.removeItem('main_course_id', selectedDish.keyword);
+        localStorage.removeItem('main_course_id', selectedDish.id);
         
     } else if (selectedDish.category === 'salad') {
         order.selSalad = null;
         document.getElementById("salad-select-no").textContent = 
         'Блюдо не выбрано';
-        localStorage.removeItem('salad_id', selectedDish.keyword);
+        localStorage.removeItem('salad_id', selectedDish.id);
         
     } else if (selectedDish.category === 'drink') {
         order.selDrink = null;
         document.getElementById("drink-select-no").textContent =
         'Напиток не выбран';
-        localStorage.removeItem('drink_id', selectedDish.keyword);
+        localStorage.removeItem('drink_id', selectedDish.id);
         
     } else if (selectedDish.category === 'dessert') {
         order.selDessert = null;
         document.getElementById("dessert-select-no").textContent = 
         'Блюдо не выбрано';
-        localStorage.removeItem('dessert_id', selectedDish.keyword);
+        localStorage.removeItem('dessert_id', selectedDish.id);
         
     }
 
@@ -204,11 +204,11 @@ async function loadDishes() {
             localStorage.getItem('salad_id'),
             localStorage.getItem('drink_id'),
             localStorage.getItem('dessert_id')
-        ].filter(Boolean); 
+        ].filter(Boolean).map(id => Number(id)); 
 
         // Фильтруем блюда, чтобы отобразить только те, которые выбраны
         const orderedDishes = fetchedDishes.filter(dish =>
-            selectedKeywords.includes(dish.keyword)
+            selectedKeywords.includes(dish.id)
         );
 
         order.selSoup = orderedDishes.find(dish => dish.category === 'soup');
@@ -267,14 +267,19 @@ document.getElementById('submitButton').onclick = async function (event) {
     }
 
     // Формируем данные для отправки
-    const api_url = 'https://edu.std-900.ist.mospolytech.ru';
-    const api_key = '74902033-57f7-417f-9e55-5a53ba870cb9';
-    const url = `${api_url}/labs/api/orders?api_key=${api_key}`;
+    const apiUrl = 'https://edu.std-900.ist.mospolytech.ru';
+    const apiKey = '74902033-57f7-417f-9e55-5a53ba870cb9';
+    const url = `${apiUrl}/labs/api/orders?api_key=${apiKey}`;
 
     const formData = new FormData();
     formData.append('full_name', document.getElementById('cl-name').value);
     formData.append('email', document.getElementById('cl-email').value);
     formData.append('subscribe', document.getElementById('agree').value);
+    if (formData.get('subscribe') == 'on') {
+        formData.set('subscribe', 1);
+    } else {
+        formData.set('subscribe', 0);
+    }
     formData.append('phone', document.getElementById('cl-tel').value);
     formData.append('delivery_address', 
         document.getElementById('cl-address').value);
@@ -285,13 +290,20 @@ document.getElementById('submitButton').onclick = async function (event) {
     formData.append('comment', document.getElementById('comment').value || '');
 
     // Добавляем блюда в заказ
-    if (order.selSoup) formData.append('soup_id', order.selSoup.keyword);
+    if (order.selSoup) formData.append('soup_id', order.selSoup.id);
     if (order.selMaindish) formData.append('main_course_id', 
-        order.selMaindish.keyword);
-    if (order.selSalad) formData.append('salad_id', order.selSalad.keyword);
-    if (order.selDrink) formData.append('drink_id', order.selDrink.keyword);
+        order.selMaindish.id);
+    if (order.selSalad) formData.append('salad_id', order.selSalad.id);
+    if (order.selDrink) formData.append('drink_id', order.selDrink.id);
     if (order.selDessert) formData.append('dessert_id', 
-        order.selDessert.keyword);
+        order.selDessert.id);
+    
+    
+    var object = {};
+    formData.forEach(function(value, key) {
+        object[key] = value;
+    });
+    console.dir(object);
 
     try {
         const response = await fetch(url, {

@@ -117,23 +117,23 @@ function selectDish(keyword) {
     
     if (selectedDish.category === 'soup') {
         order.selSoup = selectedDish;
-        localStorage.setItem('soup_id', selectedDish.keyword);
+        localStorage.setItem('soup_id', selectedDish.id);
         
     } else if (selectedDish.category === 'main-course') {
         order.selMaindish = selectedDish;
-        localStorage.setItem('main_course_id', selectedDish.keyword);
+        localStorage.setItem('main_course_id', selectedDish.id);
         
     } else if (selectedDish.category === 'salad') {
         order.selSalad = selectedDish;
-        localStorage.setItem('salad_id', selectedDish.keyword);
+        localStorage.setItem('salad_id', selectedDish.id);
         
     } else if (selectedDish.category === 'drink') {
         order.selDrink = selectedDish;
-        localStorage.setItem('drink_id', selectedDish.keyword);
+        localStorage.setItem('drink_id', selectedDish.id);
         
     } else if (selectedDish.category === 'dessert') {
         order.selDessert = selectedDish;
-        localStorage.setItem('dessert_id', selectedDish.keyword);
+        localStorage.setItem('dessert_id', selectedDish.id);
         
     }
 
@@ -191,10 +191,12 @@ function displayDishes(dishes) {
 // Функция для загрузки данных о блюдах при помощи запроса к API
 async function loadDishes() {
 
-    const apiUrl = 'https://edu.std-900.ist.mospolytech.ru/labs/api/dishes';
+    const apiUrl = 'https://edu.std-900.ist.mospolytech.ru';
+    const apiKey = '74902033-57f7-417f-9e55-5a53ba870cb9';
+    const url = `${apiUrl}/labs/api/dishes?api_key=${apiKey}`;
 
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(url);
 
         if (!response.ok) {
             throw new Error(`Ошибка: ${response.statusText}`);
@@ -208,11 +210,11 @@ async function loadDishes() {
             localStorage.getItem('salad_id'),
             localStorage.getItem('drink_id'),
             localStorage.getItem('dessert_id')
-        ].filter(Boolean); 
+        ].filter(Boolean).map(id => Number(id)); 
 
         // Фильтруем блюда, чтобы отобразить только те, которые выбраны
         const orderedDishes = fetchedDishes.filter(dish =>
-            selectedKeywords.includes(dish.keyword)
+            selectedKeywords.includes(dish.id)
         );
 
         order.selSoup = orderedDishes.find(dish => dish.category === 'soup');
